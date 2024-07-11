@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput, Button } from "react-native";
 import Checkbox from "expo-checkbox";
+import { LinearGradient } from "expo-linear-gradient";
 
 const StartScreen = () => {
   const [name, setName] = useState("");
@@ -28,6 +29,23 @@ const StartScreen = () => {
     }
   };
 
+  const handleReset = () => {
+    setName("");
+    setEmail("");
+    setChecked(false);
+    setNameError(false);
+    setEmailError(false);
+  };
+
+  const handleStart = () => {
+    if (name && !nameError && email && !emailError && isChecked) {
+    } else {
+      alert(
+        "Please fill out all fields correctly and confirm you are not a robot."
+      );
+    }
+  };
+
   return (
     <View>
       <Text>Enter your name:</Text>
@@ -47,6 +65,11 @@ const StartScreen = () => {
       <View>
         <Checkbox value={isChecked} onValueChange={setChecked} />
         <Text>I am not a Robot</Text>
+      </View>
+
+      <View>
+        <Button title="Reset" onPress={handleReset} />
+        <Button title="Start" onPress={handleStart} disabled={!isChecked} />
       </View>
     </View>
   );
