@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TextInput } from "react-native";
-import Checkbox from 'expo-checkbox';
+import Checkbox from "expo-checkbox";
 
 const StartScreen = () => {
   const [name, setName] = useState("");
@@ -44,8 +44,11 @@ const StartScreen = () => {
         onBlur={() => validateEmail(email)}
       />
       {emailError && <Text>Email Error</Text>}
-      <Checkbox value={isChecked} onValueChange={setChecked} />
+      <View>
+        <Checkbox value={isChecked} onValueChange={setChecked} />
+        <Text>I am not a Robot</Text>
       </View>
+    </View>
   );
 };
 
