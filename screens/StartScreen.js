@@ -40,9 +40,8 @@ const StartScreen = () => {
   const handleStart = () => {
     if (name && !nameError && email && !emailError && isChecked) {
     } else {
-      alert(
-        "Please fill out all fields correctly and confirm you are not a robot."
-      );
+      validateEmail(email),
+      validateName(name)
     }
   };
 
@@ -51,36 +50,36 @@ const StartScreen = () => {
       colors={["#00c6ff", "#0072ff"]}
       style={styles.gradientStyle}
     >
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerStyle}>Welcome</Text>
-      </View>
+    <View style={styles.container}>
+    <Text style={styles.headerStyle}>Welcome</Text>
       <View style={styles.bodyContainer}>
-        <Text>Name: </Text>
+        <Text style={styles.textColor}>Name: </Text>
         <TextInput
           value={name}
           onChangeText={setName}
           onBlur={() => validateName(name)}
           style={styles.input}
         />
-        {nameError && <Text>Name Error</Text>}
-        <Text>Email address:</Text>
+        <Text style = {styles.errorStyle}>{nameError ? "Please enter a valid name" : ""}</Text>
+        <Text style={styles.textColor}>Email address:</Text>
         <TextInput
           value={email}
           onChangeText={setEmail}
           onBlur={() => validateEmail(email)}
           style={styles.input}
         />
-        {emailError && <Text>Email Error</Text>}
-        <View>
+        <Text style = {styles.errorStyle}>{emailError ? "Please enter a valid email" : ""}</Text>
+        <View style = {styles.checkboxContainer}>
           <Checkbox value={isChecked} onValueChange={setChecked} />
-          <Text>I am not a Robot</Text>
+          <Text style={styles.textColor}> I am not a Robot</Text>
         </View>
 
-        <View>
-          <Button title="Reset" onPress={handleReset} />
-          <Button title="Start" onPress={handleStart} disabled={!isChecked} />
+        <View style = {styles.buttonContainer}>
+          <Button title="Reset" color={'red'} onPress={handleReset} />
+          <Button title="Start" color={'red'} onPress={handleStart} disabled={!isChecked} />
         </View>
-      </View>
+    </View>
+    </View>
     </LinearGradient>
   );
 };
@@ -89,12 +88,10 @@ const styles = StyleSheet.create({
   gradientStyle: {
     flex: 1,
     width: "100%",
-    justifyContent: "center",
     alignItems: "center",
   },
-  headerContainer: {
-    position: "absolute",
-    top: 50,
+  container: {
+    paddingTop: 50,
     width: "100%",
     alignItems: "center",
   },
@@ -113,14 +110,30 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    marginTop: 10,
+    top : 40,
   },
   input: {
     height: 40,
     borderColor: '#6200ee',
     borderBottomWidth: 1,
-    marginBottom: 10,
     color: '#6200ee',
   },
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    left : '10%',
+    width: '80%',
+  },
+  textColor : {
+    color: '#6200ee',
+  },
+  errorStyle : {
+    marginBottom : 50
+  }
 });
 export default StartScreen;
