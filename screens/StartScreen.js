@@ -4,22 +4,44 @@ import { View, Text, TextInput } from "react-native";
 const StartScreen = () => {
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState(false);
-
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState(false);
 
   const validateName = (name) => {
     if (name.length > 1 && !/\d/.test(name)) {
-        setNameError(false);
+      setNameError(false);
     } else {
-        setNameError(true);
+      setNameError(true);
     }
-  }
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    console.log(!emailRegex.test(email));
+
+    if (emailRegex.test(email)) {
+        setEmailError(false);
+    } else {
+        setEmailError(true);
+    }
+  };
+
   return (
     <View>
       <Text>Enter your name:</Text>
-      <TextInput value={name} onChangeText={setName} onBlur={() => validateName(name)}/>
+      <TextInput
+        value={name}
+        onChangeText={setName}
+        onBlur={() => validateName(name)}
+      />
       {nameError && <Text>Name Error</Text>}
       <Text>Enter your Email:</Text>
-      <TextInput />
+      <TextInput
+        value={email}
+        onChangeText={setEmail}
+        onBlur={() => validateEmail(email)}
+      />
+      {emailError && <Text>Email Error</Text>}
     </View>
   );
 };
