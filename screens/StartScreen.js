@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { View, Text, TextInput } from "react-native";
+import Checkbox from 'expo-checkbox';
 
 const StartScreen = () => {
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState(false);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(false);
+  const [isChecked, setChecked] = useState(false);
 
   const validateName = (name) => {
     if (name.length > 1 && !/\d/.test(name)) {
@@ -20,9 +22,9 @@ const StartScreen = () => {
     console.log(!emailRegex.test(email));
 
     if (emailRegex.test(email)) {
-        setEmailError(false);
+      setEmailError(false);
     } else {
-        setEmailError(true);
+      setEmailError(true);
     }
   };
 
@@ -42,7 +44,8 @@ const StartScreen = () => {
         onBlur={() => validateEmail(email)}
       />
       {emailError && <Text>Email Error</Text>}
-    </View>
+      <Checkbox value={isChecked} onValueChange={setChecked} />
+      </View>
   );
 };
 
