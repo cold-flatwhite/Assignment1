@@ -28,19 +28,22 @@ export default function App() {
       colors={["#00c6ff", "#0072ff"]}
       style={styles.gradientStyle}
     >
-      {(screen === "start" ||
-        screen === "confirm") && <StartScreen onStart={handleStart} />}
-      {screen === "confirm" && (
-        <ConfirmScreen
-          visible={screen === "confirm"}
-          name={userInfo.name}
-          email={userInfo.email}
-          onEdit={handleEdit}
-          onConfirm={handleConfirm}
-        />
-      )}
-      {screen === "game" && <GameScreen />}
-      <StatusBar style="auto" />
+      <View style={styles.container}>
+        {(screen === "start" || screen === "confirm") && (
+          <StartScreen onStart={handleStart} />
+        )}
+        {screen === "confirm" && (
+          <ConfirmScreen
+            visible={screen === "confirm"}
+            name={userInfo.name}
+            email={userInfo.email}
+            onEdit={handleEdit}
+            onConfirm={handleConfirm}
+          />
+        )}
+        {screen === "game" && <GameScreen />}
+        <StatusBar style="auto" />
+      </View>
     </LinearGradient>
   );
 }
@@ -51,5 +54,10 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
   },
-
+  container: {
+    flex: 1,
+    width : '100%',
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });

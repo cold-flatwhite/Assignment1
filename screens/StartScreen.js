@@ -48,7 +48,6 @@ const StartScreen = ({ onStart }) => {
       colors={["#00c6ff", "#0072ff"]}
       style={styles.gradientStyle}
     >
-      <View style={styles.container}>
         <Text style={styles.headerStyle}>Welcome</Text>
         <View style={styles.bodyContainer}>
           <Text style={styles.textColor}>Name: </Text>
@@ -86,7 +85,6 @@ const StartScreen = ({ onStart }) => {
             />
           </View>
         </View>
-      </View>
     </LinearGradient>
   );
 };
