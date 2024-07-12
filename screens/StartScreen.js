@@ -40,17 +40,11 @@ const StartScreen = ({ onStart }) => {
   };
 
   const handleStart = () => {
-    setNameError((prev) => {
-      const isValid = name.length > 0 && /\d/.test(name);
-      return !isValid;
-    });
-  
-    setEmailError((prev) => {
-      const isValid = emailRegex.test(email);
-      return !isValid;
-    });
-  
-    if (!nameError && !emailError && isChecked) {
+    email.length == 0 ? setEmailError((current) => {return true}) : validateEmail(email);
+    name.length == 0 ? setNameError((current) => {return true}) : validateName(name);
+    console.log(emailError);
+    console.log(nameError);
+    if (name && !nameError && email && !emailError) {
       onStart(name, email);
     }
   };
