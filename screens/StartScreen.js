@@ -10,19 +10,17 @@ const StartScreen = () => {
   const [emailError, setEmailError] = useState(false);
   const [isChecked, setChecked] = useState(false);
 
-  const validateName = (name) => {
-    if (name.length > 1 && !/\d/.test(name)) {
+  const validateName = () => {
+    if (name.length == 0  || (name.length > 1 && !/\d/.test(name))) {
       setNameError(false);
     } else {
       setNameError(true);
     }
   };
 
-  const validateEmail = (email) => {
+  const validateEmail = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    console.log(!emailRegex.test(email));
-
-    if (emailRegex.test(email)) {
+    if (email.length == 0 || emailRegex.test(email)) {
       setEmailError(false);
     } else {
       setEmailError(true);
@@ -40,8 +38,8 @@ const StartScreen = () => {
   const handleStart = () => {
     if (name && !nameError && email && !emailError && isChecked) {
     } else {
-      validateEmail(email),
-      validateName(name)
+      email.length == 0? setEmailError(true) : validateEmail(email),
+      name.length == 0 ? setNameError(true) : validateName(name)
     }
   };
 
