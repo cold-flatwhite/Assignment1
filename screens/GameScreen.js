@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import { StyleSheet, View, Text, TextInput } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button} from 'react-native';
 
 const GameScreen = () => {
     const [guess, setGuess] = useState("");
     const [attempts, setAttempts] = useState(4);
-    const [timer, setTimer] = useState(60);  
+    const [timer, setTimer] = useState(300);  
 
     return (
         <View style={styles.gameContainer}>
@@ -17,6 +17,11 @@ const GameScreen = () => {
         />
         <Text style={styles.text}>Attempts left: {attempts}</Text>
         <Text style={styles.text}>Time left: {timer}s</Text>
+        <View style={styles.buttonContainer}>
+          <Button title="Use a Hint" />
+          <Button title="Submit Guess"  />
+        </View>
+        
         </View>
     );
 }
@@ -49,6 +54,10 @@ const styles = StyleSheet.create({
       text: {
         fontSize: 16,
         marginBottom: 10,
+      },
+      buttonContainer: {
+        justifyContent: "space-between",
+        width: "100%",
       },
 })
 
