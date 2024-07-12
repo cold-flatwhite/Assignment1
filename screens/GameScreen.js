@@ -9,7 +9,7 @@ import {
   Image,
 } from "react-native";
 import Card from "../components/Card";
-
+import Input from "../components/Input";
 
 const GameScreen = () => {
   const generateRandomNumber = () => Math.floor(Math.random() * 100) + 1;
@@ -99,7 +99,7 @@ const GameScreen = () => {
       {!showSuccess && !showGuessResult && !gameOverMessage && !hintUsed && (
         <Card>
           <Text style={styles.header}>Guess A Number between 1 & 100</Text>
-          <TextInput
+          <Input
             value={guess}
             onChangeText={setGuess}
             keyboardType="numeric"

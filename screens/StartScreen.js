@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import Checkbox from "expo-checkbox";
 import { LinearGradient } from "expo-linear-gradient";
 import Card from "../components/Card";
-
+import Input from "../components/Input";
 
 const StartScreen = ({ onStart }) => {
   const [name, setName] = useState("");
@@ -50,44 +50,34 @@ const StartScreen = ({ onStart }) => {
       colors={["#00c6ff", "#0072ff"]}
       style={styles.gradientStyle}
     >
-        <Text style={styles.headerStyle}>Welcome</Text>
-        
-        <Card>
-          <Text style={styles.textColor}>Name: </Text>
-          <TextInput
-            value={name}
-            onChangeText={setName}
-            onBlur={() => validateName(name)}
-            style={styles.input}
-          />
-          <Text style={styles.errorStyle}>
-            {nameError ? "Please enter a valid name" : ""}
-          </Text>
-          <Text style={styles.textColor}>Email address:</Text>
-          <TextInput
-            value={email}
-            onChangeText={setEmail}
-            onBlur={() => validateEmail(email)}
-            style={styles.input}
-          />
-          <Text style={styles.errorStyle}>
-            {emailError ? "Please enter a valid email" : ""}
-          </Text>
-          <View style={styles.checkboxContainer}>
-            <Checkbox value={isChecked} onValueChange={setChecked} />
-            <Text style={styles.textColor}> I am not a Robot</Text>
-          </View>
+      <Text style={styles.headerStyle}>Welcome</Text>
 
-          <View style={styles.buttonContainer}>
-            <Button title="Reset" color={"red"} onPress={handleReset} />
-            <Button
-              title="Start"
-              color={"red"}
-              onPress={handleStart}
-              disabled={!isChecked}
-            />
-          </View>
-        </Card>
+      <Card>
+        <Text style={styles.textColor}>Name: </Text>
+        <Input value={name} onChangeText={setName} onBlur={validateName} />
+        <Text style={styles.errorStyle}>
+          {nameError ? "Please enter a valid name" : ""}
+        </Text>
+        <Text style={styles.textColor}>Email address:</Text>
+        <Input value={email} onChangeText={setEmail} onBlur={validateEmail} />
+        <Text style={styles.errorStyle}>
+          {emailError ? "Please enter a valid email" : ""}
+        </Text>
+        <View style={styles.checkboxContainer}>
+          <Checkbox value={isChecked} onValueChange={setChecked} />
+          <Text style={styles.textColor}> I am not a Robot</Text>
+        </View>
+
+        <View style={styles.buttonContainer}>
+          <Button title="Reset" color={"red"} onPress={handleReset} />
+          <Button
+            title="Start"
+            color={"red"}
+            onPress={handleStart}
+            disabled={!isChecked}
+          />
+        </View>
+      </Card>
     </LinearGradient>
   );
 };
