@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import Checkbox from "expo-checkbox";
 import { LinearGradient } from "expo-linear-gradient";
 
-const StartScreen = ({onStart}) => {
+const StartScreen = ({ onStart }) => {
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState(false);
   const [email, setEmail] = useState("");
@@ -11,7 +11,7 @@ const StartScreen = ({onStart}) => {
   const [isChecked, setChecked] = useState(false);
 
   const validateName = () => {
-    if (name.length == 0  || (name.length > 1 && !/\d/.test(name))) {
+    if (name.length == 0 || (name.length > 1 && !/\d/.test(name))) {
       setNameError(false);
     } else {
       setNameError(true);
@@ -36,11 +36,10 @@ const StartScreen = ({onStart}) => {
   };
 
   const handleStart = () => {
-    if (name && !nameError && email && !emailError && isChecked) {
+    email.length == 0 ? setEmailError(true) : validateEmail(email);
+    name.length == 0 ? setNameError(true) : validateName(name);
+    if (name && !nameError && email && !emailError) {
       onStart(name, email);
-    } else {
-      email.length == 0? setEmailError(true) : validateEmail(email),
-      name.length == 0 ? setNameError(true) : validateName(name)
     }
   };
 
@@ -49,36 +48,45 @@ const StartScreen = ({onStart}) => {
       colors={["#00c6ff", "#0072ff"]}
       style={styles.gradientStyle}
     >
-    <View style={styles.container}>
-    <Text style={styles.headerStyle}>Welcome</Text>
-      <View style={styles.bodyContainer}>
-        <Text style={styles.textColor}>Name: </Text>
-        <TextInput
-          value={name}
-          onChangeText={setName}
-          onBlur={() => validateName(name)}
-          style={styles.input}
-        />
-        <Text style = {styles.errorStyle}>{nameError ? "Please enter a valid name" : ""}</Text>
-        <Text style={styles.textColor}>Email address:</Text>
-        <TextInput
-          value={email}
-          onChangeText={setEmail}
-          onBlur={() => validateEmail(email)}
-          style={styles.input}
-        />
-        <Text style = {styles.errorStyle}>{emailError ? "Please enter a valid email" : ""}</Text>
-        <View style = {styles.checkboxContainer}>
-          <Checkbox value={isChecked} onValueChange={setChecked} />
-          <Text style={styles.textColor}> I am not a Robot</Text>
-        </View>
+      <View style={styles.container}>
+        <Text style={styles.headerStyle}>Welcome</Text>
+        <View style={styles.bodyContainer}>
+          <Text style={styles.textColor}>Name: </Text>
+          <TextInput
+            value={name}
+            onChangeText={setName}
+            onBlur={() => validateName(name)}
+            style={styles.input}
+          />
+          <Text style={styles.errorStyle}>
+            {nameError ? "Please enter a valid name" : ""}
+          </Text>
+          <Text style={styles.textColor}>Email address:</Text>
+          <TextInput
+            value={email}
+            onChangeText={setEmail}
+            onBlur={() => validateEmail(email)}
+            style={styles.input}
+          />
+          <Text style={styles.errorStyle}>
+            {emailError ? "Please enter a valid email" : ""}
+          </Text>
+          <View style={styles.checkboxContainer}>
+            <Checkbox value={isChecked} onValueChange={setChecked} />
+            <Text style={styles.textColor}> I am not a Robot</Text>
+          </View>
 
-        <View style = {styles.buttonContainer}>
-          <Button title="Reset" color={'red'} onPress={handleReset} />
-          <Button title="Start" color={'red'} onPress={handleStart} disabled={!isChecked} />
+          <View style={styles.buttonContainer}>
+            <Button title="Reset" color={"red"} onPress={handleReset} />
+            <Button
+              title="Start"
+              color={"red"}
+              onPress={handleStart}
+              disabled={!isChecked}
+            />
+          </View>
         </View>
-    </View>
-    </View>
+      </View>
     </LinearGradient>
   );
 };
@@ -109,30 +117,30 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    top : 40,
+    top: 40,
   },
   input: {
     height: 40,
-    borderColor: '#6200ee',
+    borderColor: "#6200ee",
     borderBottomWidth: 1,
-    color: '#6200ee',
+    color: "#6200ee",
   },
   checkboxContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginVertical: 10,
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    left : '10%',
-    width: '80%',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    left: "10%",
+    width: "80%",
   },
-  textColor : {
-    color: '#6200ee',
+  textColor: {
+    color: "#6200ee",
   },
-  errorStyle : {
-    marginBottom : 50
-  }
+  errorStyle: {
+    marginBottom: 50,
+  },
 });
 export default StartScreen;

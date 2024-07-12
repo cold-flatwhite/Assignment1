@@ -4,6 +4,7 @@ import { useState } from "react";
 import StartScreen from "./screens/StartScreen";
 import ConfirmScreen from "./screens/ConfirmScreen";
 import GameScreen from "./screens/GameScreen";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function App() {
   const [screen, setScreen] = useState("start");
@@ -23,8 +24,12 @@ export default function App() {
   };
 
   return (
-    <View style={styles.container}>
-      <StartScreen onStart={handleStart} />
+    <LinearGradient
+      colors={["#00c6ff", "#0072ff"]}
+      style={styles.gradientStyle}
+    >
+      {(screen === "start" ||
+        screen === "confirm") && <StartScreen onStart={handleStart} />}
       {screen === "confirm" && (
         <ConfirmScreen
           visible={screen === "confirm"}
@@ -34,17 +39,17 @@ export default function App() {
           onConfirm={handleConfirm}
         />
       )}
-      {screen === "game" && <GameScreen/>}
+      {screen === "game" && <GameScreen />}
       <StatusBar style="auto" />
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  gradientStyle: {
     flex: 1,
-    backgroundColor: "#fff",
+    width: "100%",
     alignItems: "center",
-    justifyContent: "center",
   },
+
 });
