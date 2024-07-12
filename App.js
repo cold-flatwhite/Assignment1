@@ -41,7 +41,7 @@ export default function App() {
             onConfirm={handleConfirm}
           />
         )}
-        {screen === "game" && <GameScreen />}
+        {screen === "game" && <GameScreen/>}
         <StatusBar style="auto" />
       </View>
     </LinearGradient>

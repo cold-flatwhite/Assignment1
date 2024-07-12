@@ -8,13 +8,15 @@ import {
   Alert,
   Image,
 } from "react-native";
+import Card from "../components/Card";
 
-const GameScreen = ({ onRestart }) => {
+
+const GameScreen = () => {
   const generateRandomNumber = () => Math.floor(Math.random() * 100) + 1;
   const [randomNumber, setRandomNumber] = useState(generateRandomNumber());
   const [guess, setGuess] = useState("");
-  const [attempts, setAttempts] = useState(300);
-  const [timer, setTimer] = useState(5);
+  const [attempts, setAttempts] = useState(4);
+  const [timer, setTimer] = useState(300);
   const [showGuessResult, setShowGuessResult] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [gameOver, setGameOver] = useState(false);
@@ -77,7 +79,7 @@ const GameScreen = ({ onRestart }) => {
     setShowSuccess(false);
     setGameOver(false);
     setGameOverMessage("");
-    setHintMessage(""),
+    setHintMessage("");
     setHintUsed(false);
   };
 
@@ -95,7 +97,7 @@ const GameScreen = ({ onRestart }) => {
       </View>
 
       {!showSuccess && !showGuessResult && !gameOverMessage && !hintUsed && (
-        <View style={styles.conditionalContainer}>
+        <Card>
           <Text style={styles.header}>Guess A Number between 1 & 100</Text>
           <TextInput
             value={guess}
@@ -115,11 +117,11 @@ const GameScreen = ({ onRestart }) => {
           <View style={styles.buttonContainer}>
             <Button title="Submit Guess" onPress={handleSubmitGuess} />
           </View>
-        </View>
+        </Card>
       )}
 
       {!gameOver && showSuccess && (
-        <View style={styles.conditionalContainer}>
+        <Card>
           <Text style={styles.containerText}>You guessed correct!</Text>
           <Text style={styles.containerText}>
             Attempts used: {4 - attempts}
@@ -131,22 +133,22 @@ const GameScreen = ({ onRestart }) => {
             }}
           />
           <Button title="New Game" onPress={handleRestart} />
-        </View>
+        </Card>
       )}
 
       {!gameOver && showGuessResult && (
-        <View style={styles.conditionalContainer}>
+        <Card>
           <Text style={styles.containerText}>You did not guess correct!</Text>
           <Button title="Try Again" onPress={handleGuessAgain} />
           <Button
             title="End the Game"
             onPress={() => handleGameOver("Game ended by user.")}
           />
-        </View>
+        </Card>
       )}
 
       {gameOver && (
-        <View style={styles.conditionalContainer}>
+        <Card>
           <Text style={styles.containerText}>The game is over!</Text>
           <Image
             style={styles.image}
@@ -155,14 +157,14 @@ const GameScreen = ({ onRestart }) => {
           {gameOverMessage && (
             <Text style={styles.containerText}>{gameOverMessage}</Text>
           )}
-        </View>
+        </Card>
       )}
 
       {hintUsed && (
-        <View style={styles.conditionalContainer}>
+        <Card>
           <Text style={styles.containerText}>{hintMessage}</Text>
           <Button title="Continue" onPress={() => setHintUsed(false)} />
-        </View>
+        </Card>
       )}
     </View>
   );
@@ -174,18 +176,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     justifyContent: "center",
     position: "relative",
-  },
-  conditionalContainer: {
-    width: "80%",
-    backgroundColor: "rgba(255, 255, 255, 0.9)",
-    borderRadius: 10,
-    padding: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-    alignItems: "center",
   },
   buttonContainer: {
     marginBottom: 5,

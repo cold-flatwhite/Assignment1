@@ -1,11 +1,12 @@
 import React from "react";
 import { StyleSheet, View, Modal, Text, Button } from "react-native";
+import Card from "../components/Card";
 
 const Confirm = ({ visible, name, email, onEdit, onConfirm }) => {
   return (
     <Modal visible={visible} transparent={true} animationType="slide">
       <View style={styles.centeredView}>
-        <View style={styles.confirmContainer}>
+        <Card>
           <Text style={styles.textStyle}>
             Hello {name} {"\n"}
             Here is the email that you entered: {"\n"}
@@ -16,7 +17,7 @@ const Confirm = ({ visible, name, email, onEdit, onConfirm }) => {
             <Button title="Edit" color={"red"} onPress={onEdit} />
             <Button title="Continue" onPress={onConfirm} />
           </View>
-        </View>
+        </Card>
       </View>
     </Modal>
   );

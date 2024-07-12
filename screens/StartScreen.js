@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import Checkbox from "expo-checkbox";
 import { LinearGradient } from "expo-linear-gradient";
+import Card from "../components/Card";
+
 
 const StartScreen = ({ onStart }) => {
   const [name, setName] = useState("");
@@ -49,7 +51,8 @@ const StartScreen = ({ onStart }) => {
       style={styles.gradientStyle}
     >
         <Text style={styles.headerStyle}>Welcome</Text>
-        <View style={styles.bodyContainer}>
+        
+        <Card>
           <Text style={styles.textColor}>Name: </Text>
           <TextInput
             value={name}
@@ -84,7 +87,7 @@ const StartScreen = ({ onStart }) => {
               disabled={!isChecked}
             />
           </View>
-        </View>
+        </Card>
     </LinearGradient>
   );
 };
@@ -104,18 +107,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     color: "#6200ee",
-  },
-  bodyContainer: {
-    width: "80%",
-    padding: 20,
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-    top: 40,
   },
   input: {
     height: 40,
