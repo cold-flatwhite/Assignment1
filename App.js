@@ -1,8 +1,9 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import StartScreen from "./screens/StartScreen";
 import { useState } from "react";
+import StartScreen from "./screens/StartScreen";
 import ConfirmScreen from "./screens/ConfirmScreen";
+import GameScreen from "./screens/GameScreen";
 
 export default function App() {
   const [screen, setScreen] = useState("start");
@@ -13,11 +14,13 @@ export default function App() {
     setScreen("confirm");
   };
 
-  const handleEdit = () => setScreen("start");
-  const handleConfirm = () => {
-    console.log("confirm")
+  const handleEdit = () => {
+    setScreen("start");
   };
 
+  const handleConfirm = () => {
+    setScreen("game");
+  };
 
   return (
     <View style={styles.container}>
@@ -31,6 +34,7 @@ export default function App() {
           onConfirm={handleConfirm}
         />
       )}
+      {screen === "game" && <GameScreen/>}
       <StatusBar style="auto" />
     </View>
   );
