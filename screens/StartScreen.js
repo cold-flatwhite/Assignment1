@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import Checkbox from "expo-checkbox";
 import { LinearGradient } from "expo-linear-gradient";
 
-const StartScreen = () => {
+const StartScreen = ({onStart}) => {
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState(false);
   const [email, setEmail] = useState("");
@@ -37,6 +37,7 @@ const StartScreen = () => {
 
   const handleStart = () => {
     if (name && !nameError && email && !emailError && isChecked) {
+      onStart(name, email);
     } else {
       email.length == 0? setEmailError(true) : validateEmail(email),
       name.length == 0 ? setNameError(true) : validateName(name)
