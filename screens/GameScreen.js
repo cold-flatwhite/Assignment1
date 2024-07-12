@@ -21,6 +21,7 @@ const GameScreen = () => {
 
   const handleSubmitGuess = () => {
     const numGuess = parseInt(guess, 10);
+    setGuess("");
     if (isNaN(numGuess) || numGuess < 1 || numGuess > 100) {
       Alert.alert("Invalid Guess", "Please enter a number between 1 and 100.");
       return;
@@ -28,6 +29,14 @@ const GameScreen = () => {
     console.log(randomNumber);
     if (numGuess === randomNumber) {
       setShowSuccess(true);
+    } else {
+      setAttempts((prevAttempts) => {
+        const newAttempts = prevAttempts - 1;
+        if (newAttempts <= 0) {
+          handleGameOver("No more attempts left!");
+        }
+        return newAttempts;
+      });
     }
   };
 
@@ -38,16 +47,20 @@ const GameScreen = () => {
   };
 
   const handleRestart = () => {
-
-  }
+    setRandomNumber(generateRandomNumber());
+    setGuess("");
+    setAttempts(4);
+    setTimer(300);
+    setShowSuccess(false);
+  };
   return (
     <View style={styles.container}>
-            <View style={styles.buttonContainer}>
-          <Button title="Restart" onPress={handleRestart} />
-        </View>
+      <View style={styles.buttonContainer}>
+        <Button title="Restart" onPress={handleRestart} />
+      </View>
 
       {!showSuccess && (
-        <View style ={styles.guessContainer}>
+        <View style={styles.guessContainer}>
           <Text style={styles.header}>Guess A Number between 1 & 100</Text>
           <TextInput
             value={guess}
@@ -65,35 +78,31 @@ const GameScreen = () => {
       )}
 
       {showSuccess && (
-          <View style={styles.successContainer}>
-            <View style={styles.card}>
-              <Text style={styles.modalText}>
-                You guessed correct!
-              </Text>
-              <Text style={styles.modalText}>
-                Attempts used: {4 - attempts}
-              </Text>
-              <Image
-                style={styles.image}
-                source={{
-                  uri: `https://picsum.photos/id/${randomNumber}/100/100`,
-                }}
-              />
-              <Button title="New Game" />
-            </View>
+        <View style={styles.successContainer}>
+          <View style={styles.card}>
+            <Text style={styles.modalText}>You guessed correct!</Text>
+            <Text style={styles.modalText}>Attempts used: {4 - attempts}</Text>
+            <Image
+              style={styles.image}
+              source={{
+                uri: `https://picsum.photos/id/${randomNumber}/100/100`,
+              }}
+            />
+            <Button title="New Game" onPress={handleRestart} />
           </View>
+        </View>
       )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      },
-    guessContainer: {
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  guessContainer: {
     width: "80%",
     backgroundColor: "rgba(255, 255, 255, 0.9)",
     borderRadius: 10,
@@ -139,7 +148,7 @@ const styles = StyleSheet.create({
     color: "grey",
   },
   buttonContainer: {
-    alignItems : "left",
+    alignItems: "left",
     justifyContent: "space-between",
     width: "100%",
   },
