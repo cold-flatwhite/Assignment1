@@ -9,7 +9,7 @@ import {
   Image,
 } from "react-native";
 
-const GameScreen = () => {
+const GameScreen = ({ onRestart }) => {
   const generateRandomNumber = () => Math.floor(Math.random() * 100) + 1;
 
   const [randomNumber, setRandomNumber] = useState(generateRandomNumber());
@@ -18,6 +18,8 @@ const GameScreen = () => {
   const [timer, setTimer] = useState(300);
   const [showGuessResult, setShowGuessResult] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
+  const [gameOverMessage, setGameOverMessage] = useState("");
 
   const handleSubmitGuess = () => {
     const numGuess = parseInt(guess, 10);
@@ -30,20 +32,25 @@ const GameScreen = () => {
     if (numGuess === randomNumber) {
       setShowSuccess(true);
     } else {
+      setShowGuessResult(true);
       setAttempts((prevAttempts) => {
         const newAttempts = prevAttempts - 1;
         if (newAttempts <= 0) {
-          handleGameOver("No more attempts left!");
+            setGameOver(true);
+            setGameOverMessage("You are out of attempts");
         }
         return newAttempts;
       });
     }
   };
 
-  const handleGameOver = (message) => {
-    Alert.alert("Game Over", message, [
-      { text: "Restart", onPress: onRestart },
-    ]);
+  const handleGuessAgain = () => {
+    setShowGuessResult(false);
+    setGuess("");
+  };
+
+  const handleGameOver = () => {
+    setGameOver(true);
   };
 
   const handleRestart = () => {
@@ -52,15 +59,18 @@ const GameScreen = () => {
     setAttempts(4);
     setTimer(300);
     setShowSuccess(false);
+    setGameOver(false);
+    setGameOverMessage("");
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
         <Button title="Restart" onPress={handleRestart} />
       </View>
 
-      {!showSuccess && (
-        <View style={styles.guessContainer}>
+      {!showSuccess && !showGuessResult && !gameOverMessage && (
+        <View style={styles.conditionalContainer}>
           <Text style={styles.header}>Guess A Number between 1 & 100</Text>
           <TextInput
             value={guess}
@@ -77,19 +87,39 @@ const GameScreen = () => {
         </View>
       )}
 
-      {showSuccess && (
-        <View style={styles.successContainer}>
-          <View style={styles.card}>
-            <Text style={styles.modalText}>You guessed correct!</Text>
-            <Text style={styles.modalText}>Attempts used: {4 - attempts}</Text>
-            <Image
-              style={styles.image}
-              source={{
-                uri: `https://picsum.photos/id/${randomNumber}/100/100`,
-              }}
-            />
-            <Button title="New Game" onPress={handleRestart} />
-          </View>
+      {!gameOver && showSuccess && (
+        <View style={styles.conditionalContainer}>
+          <Text style={styles.modalText}>You guessed correct!</Text>
+          <Text style={styles.modalText}>Attempts used: {4 - attempts}</Text>
+          <Image
+            style={styles.image}
+            source={{
+              uri: `https://picsum.photos/id/${randomNumber}/100/100`,
+            }}
+          />
+          <Button title="New Game" onPress={handleRestart} />
+        </View>
+      )}
+
+      {!gameOver && showGuessResult && (
+        <View style={styles.conditionalContainer}>
+          <Text style={styles.modalText}>You did not guess correct!</Text>
+          <Button title="Try Again" onPress={handleGuessAgain} />
+          <Button
+            title="End the Game"
+            onPress={() => handleGameOver("Game ended by user.")}
+          />
+        </View>
+      )}
+
+      {gameOverMessage && (
+        <View style={styles.conditionalContainer}>
+          <Text>The game is over!</Text>
+          <Image
+            style={styles.image}
+            source={require("../assets/sad_smiley.png")}
+          />
+          {gameOverMessage && <Text style={styles.modalText}>{gameOverMessage}</Text>}
         </View>
       )}
     </View>
@@ -102,7 +132,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  guessContainer: {
+  conditionalContainer: {
     width: "80%",
     backgroundColor: "rgba(255, 255, 255, 0.9)",
     borderRadius: 10,
@@ -113,17 +143,6 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     alignItems: "center",
-  },
-  successContainer: {
-    width: "80%",
-    backgroundColor: "rgba(255, 255, 255, 0.9)",
-    borderRadius: 10,
-    padding: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
   buttonContainer: {
     flexDirection: "row",
