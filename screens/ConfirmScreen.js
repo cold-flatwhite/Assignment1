@@ -2,11 +2,12 @@ import React from "react";
 import { StyleSheet, View, Modal, Text, Button } from "react-native";
 import Card from "../components/Card";
 import TextComponent from "../components/TextComponent";
+import ButtonComponent from "../components/ButtonComponent";
 
 const Confirm = ({ visible, name, email, onEdit, onConfirm }) => {
   return (
     <Modal visible={visible} transparent={true} animationType="slide">
-      <View style={styles.centeredView}>
+      <View style={styles.confirmContainer}>
         <Card>
           <TextComponent style={styles.textStyle}>
             Hello {name} {"\n"}
@@ -15,8 +16,8 @@ const Confirm = ({ visible, name, email, onEdit, onConfirm }) => {
             If it is not correct, please go back and enter again.
           </TextComponent>
           <View style={styles.buttonContainer}>
-            <Button title="Edit" color={"red"} onPress={onEdit} />
-            <Button title="Continue" onPress={onConfirm} />
+            <ButtonComponent title="Edit" color={"red"} onPress={onEdit} />
+            <ButtonComponent title="Continue" onPress={onConfirm} />
           </View>
         </Card>
       </View>
@@ -25,7 +26,7 @@ const Confirm = ({ visible, name, email, onEdit, onConfirm }) => {
 };
 
 const styles = StyleSheet.create({
-  centeredView: {
+  confirmContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",

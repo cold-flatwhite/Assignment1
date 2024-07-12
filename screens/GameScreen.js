@@ -11,6 +11,7 @@ import {
 import Card from "../components/Card";
 import Input from "../components/Input";
 import TextComponent from "../components/TextComponent";
+import ButtonComponent from "../components/ButtonComponent";
 
 const GameScreen = () => {
   const generateRandomNumber = () => Math.floor(Math.random() * 100) + 1;
@@ -109,14 +110,14 @@ const GameScreen = () => {
           <TextComponent style={styles.leftTextStyle}>Attempts left: {attempts}</TextComponent>
           <TextComponent style={styles.leftTextStyle}>Time left: {timer}s</TextComponent>
           <View style={styles.buttonContainer}>
-            <Button
+            <ButtonComponent
               title="Use a Hint"
               onPress={handleUseHint}
               disabled={hintMessage}
             />
           </View>
           <View style={styles.buttonContainer}>
-            <Button title="Submit Guess" onPress={handleSubmitGuess} />
+            <ButtonComponent title="Submit Guess" onPress={handleSubmitGuess} />
           </View>
         </Card>
       )}
