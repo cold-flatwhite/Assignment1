@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -11,15 +11,30 @@ import {
 
 const GameScreen = ({ onRestart }) => {
   const generateRandomNumber = () => Math.floor(Math.random() * 100) + 1;
-
   const [randomNumber, setRandomNumber] = useState(generateRandomNumber());
   const [guess, setGuess] = useState("");
-  const [attempts, setAttempts] = useState(4);
-  const [timer, setTimer] = useState(300);
+  const [attempts, setAttempts] = useState(300);
+  const [timer, setTimer] = useState(5);
   const [showGuessResult, setShowGuessResult] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [gameOverMessage, setGameOverMessage] = useState("");
+  const [hintUsed, setHintUsed] = useState(false);
+  const [hintMessage, setHintMessage] = useState("");
+
+  useEffect(() => {
+    const timerInterval = setInterval(() => {
+      setTimer((prev) => {
+        if (prev === 1) {
+          clearInterval(timerInterval);
+          setGameOver(true);
+          setGameOverMessage("You are out of time");
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(timerInterval);
+  }, [randomNumber]);
 
   const handleSubmitGuess = () => {
     const numGuess = parseInt(guess, 10);
@@ -36,8 +51,8 @@ const GameScreen = ({ onRestart }) => {
       setAttempts((prevAttempts) => {
         const newAttempts = prevAttempts - 1;
         if (newAttempts <= 0) {
-            setGameOver(true);
-            setGameOverMessage("You are out of attempts");
+          setGameOver(true);
+          setGameOverMessage("You are out of attempts");
         }
         return newAttempts;
       });
@@ -58,9 +73,19 @@ const GameScreen = ({ onRestart }) => {
     setGuess("");
     setAttempts(4);
     setTimer(300);
+    setShowGuessResult(false);
     setShowSuccess(false);
     setGameOver(false);
     setGameOverMessage("");
+    setHintMessage(""),
+    setHintUsed(false);
+  };
+
+  const handleUseHint = () => {
+    const msg =
+      randomNumber <= 50 ? "Number is 50 or less" : "Number is more than 50";
+    setHintUsed(true);
+    setHintMessage(msg);
   };
 
   return (
@@ -69,7 +94,7 @@ const GameScreen = ({ onRestart }) => {
         <Button title="Restart" onPress={handleRestart} />
       </View>
 
-      {!showSuccess && !showGuessResult && !gameOverMessage && (
+      {!showSuccess && !showGuessResult && !gameOverMessage && !hintUsed && (
         <View style={styles.conditionalContainer}>
           <Text style={styles.header}>Guess A Number between 1 & 100</Text>
           <TextInput
@@ -78,10 +103,16 @@ const GameScreen = ({ onRestart }) => {
             keyboardType="numeric"
             style={styles.input}
           />
-          <Text style={styles.text}>Attempts left: {attempts}</Text>
-          <Text style={styles.text}>Time left: {timer}s</Text>
+          <Text style={styles.leftTextStyle}>Attempts left: {attempts}</Text>
+          <Text style={styles.leftTextStyle}>Time left: {timer}s</Text>
           <View style={styles.buttonContainer}>
-            <Button title="Use a Hint" />
+            <Button
+              title="Use a Hint"
+              onPress={handleUseHint}
+              disabled={hintMessage}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
             <Button title="Submit Guess" onPress={handleSubmitGuess} />
           </View>
         </View>
@@ -89,8 +120,10 @@ const GameScreen = ({ onRestart }) => {
 
       {!gameOver && showSuccess && (
         <View style={styles.conditionalContainer}>
-          <Text style={styles.modalText}>You guessed correct!</Text>
-          <Text style={styles.modalText}>Attempts used: {4 - attempts}</Text>
+          <Text style={styles.containerText}>You guessed correct!</Text>
+          <Text style={styles.containerText}>
+            Attempts used: {4 - attempts}
+          </Text>
           <Image
             style={styles.image}
             source={{
@@ -103,7 +136,7 @@ const GameScreen = ({ onRestart }) => {
 
       {!gameOver && showGuessResult && (
         <View style={styles.conditionalContainer}>
-          <Text style={styles.modalText}>You did not guess correct!</Text>
+          <Text style={styles.containerText}>You did not guess correct!</Text>
           <Button title="Try Again" onPress={handleGuessAgain} />
           <Button
             title="End the Game"
@@ -112,14 +145,23 @@ const GameScreen = ({ onRestart }) => {
         </View>
       )}
 
-      {gameOverMessage && (
+      {gameOver && (
         <View style={styles.conditionalContainer}>
-          <Text>The game is over!</Text>
+          <Text style={styles.containerText}>The game is over!</Text>
           <Image
             style={styles.image}
             source={require("../assets/sad_smiley.png")}
           />
-          {gameOverMessage && <Text style={styles.modalText}>{gameOverMessage}</Text>}
+          {gameOverMessage && (
+            <Text style={styles.containerText}>{gameOverMessage}</Text>
+          )}
+        </View>
+      )}
+
+      {hintUsed && (
+        <View style={styles.conditionalContainer}>
+          <Text style={styles.containerText}>{hintMessage}</Text>
+          <Button title="Continue" onPress={() => setHintUsed(false)} />
         </View>
       )}
     </View>
@@ -129,8 +171,9 @@ const GameScreen = ({ onRestart }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "flex-end",
     justifyContent: "center",
-    alignItems: "center",
+    position: "relative",
   },
   conditionalContainer: {
     width: "80%",
@@ -145,13 +188,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonContainer: {
-    flexDirection: "row",
-    width: "100%",
+    marginBottom: 5,
   },
   header: {
     fontSize: 15,
     color: "purple",
-    marginBottom: 20,
   },
   input: {
     height: 40,
@@ -159,22 +200,19 @@ const styles = StyleSheet.create({
     borderColor: "#6200ee",
     borderBottomWidth: 1,
     color: "#6200ee",
-    marginBottom: 20,
+    marginBottom: 10,
   },
-  text: {
+  leftTextStyle: {
     fontSize: 13,
     marginBottom: 10,
     color: "grey",
   },
-  buttonContainer: {
-    alignItems: "left",
-    justifyContent: "space-between",
-    width: "100%",
-  },
-  modalText: {
+
+  containerText: {
     fontSize: 18,
-    marginBottom: 20,
+    marginBottom: 10,
     textAlign: "center",
+    color: "purple",
   },
   image: {
     width: 100,
