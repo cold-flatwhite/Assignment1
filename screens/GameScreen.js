@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import Card from "../components/Card";
 import Input from "../components/Input";
+import TextComponent from "../components/TextComponent";
 
 const GameScreen = () => {
   const generateRandomNumber = () => Math.floor(Math.random() * 100) + 1;
@@ -98,15 +99,15 @@ const GameScreen = () => {
 
       {!showSuccess && !showGuessResult && !gameOverMessage && !hintUsed && (
         <Card>
-          <Text style={styles.header}>Guess A Number between 1 & 100</Text>
+          <TextComponent>Guess A Number between 1 & 100</TextComponent>
           <Input
             value={guess}
             onChangeText={setGuess}
             keyboardType="numeric"
             style={styles.input}
           />
-          <Text style={styles.leftTextStyle}>Attempts left: {attempts}</Text>
-          <Text style={styles.leftTextStyle}>Time left: {timer}s</Text>
+          <TextComponent style={styles.leftTextStyle}>Attempts left: {attempts}</TextComponent>
+          <TextComponent style={styles.leftTextStyle}>Time left: {timer}s</TextComponent>
           <View style={styles.buttonContainer}>
             <Button
               title="Use a Hint"
@@ -122,10 +123,10 @@ const GameScreen = () => {
 
       {!gameOver && showSuccess && (
         <Card>
-          <Text style={styles.containerText}>You guessed correct!</Text>
-          <Text style={styles.containerText}>
+          <TextComponent style={styles.containerText}>You guessed correct!</TextComponent>
+          <TextComponent style={styles.containerText}>
             Attempts used: {4 - attempts}
-          </Text>
+          </TextComponent>
           <Image
             style={styles.image}
             source={{
@@ -138,7 +139,7 @@ const GameScreen = () => {
 
       {!gameOver && showGuessResult && (
         <Card>
-          <Text style={styles.containerText}>You did not guess correct!</Text>
+          <TextComponent style={styles.containerText}>You did not guess correct!</TextComponent>
           <Button title="Try Again" onPress={handleGuessAgain} />
           <Button
             title="End the Game"
@@ -149,20 +150,20 @@ const GameScreen = () => {
 
       {gameOver && (
         <Card>
-          <Text style={styles.containerText}>The game is over!</Text>
+          <TextComponent style={styles.containerText}>The game is over!</TextComponent>
           <Image
             style={styles.image}
             source={require("../assets/sad_smiley.png")}
           />
           {gameOverMessage && (
-            <Text style={styles.containerText}>{gameOverMessage}</Text>
+            <TextComponent style={styles.containerText}>{gameOverMessage}</TextComponent>
           )}
         </Card>
       )}
 
       {hintUsed && (
         <Card>
-          <Text style={styles.containerText}>{hintMessage}</Text>
+          <TextComponent style={styles.containerText}>{hintMessage}</TextComponent>
           <Button title="Continue" onPress={() => setHintUsed(false)} />
         </Card>
       )}
@@ -180,10 +181,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginBottom: 5,
   },
-  header: {
-    fontSize: 15,
-    color: "purple",
-  },
   input: {
     height: 40,
     width: 40,
@@ -199,10 +196,8 @@ const styles = StyleSheet.create({
   },
 
   containerText: {
-    fontSize: 18,
     marginBottom: 10,
     textAlign: "center",
-    color: "purple",
   },
   image: {
     width: 100,

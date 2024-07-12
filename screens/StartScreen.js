@@ -4,6 +4,7 @@ import Checkbox from "expo-checkbox";
 import { LinearGradient } from "expo-linear-gradient";
 import Card from "../components/Card";
 import Input from "../components/Input";
+import TextComponent from "../components/TextComponent";
 
 const StartScreen = ({ onStart }) => {
   const [name, setName] = useState("");
@@ -46,26 +47,24 @@ const StartScreen = ({ onStart }) => {
   };
 
   return (
-    <LinearGradient
-      colors={["#00c6ff", "#0072ff"]}
-      style={styles.gradientStyle}
-    >
-      <Text style={styles.headerStyle}>Welcome</Text>
-
+    <View style={styles.startContainer}>
+      <View style = {styles.headerContainer}>
+      <TextComponent style={styles.headerStyle}>Welcome</TextComponent>
+      </View>
       <Card>
-        <Text style={styles.textColor}>Name: </Text>
+        <TextComponent>Name: </TextComponent>
         <Input value={name} onChangeText={setName} onBlur={validateName} />
-        <Text style={styles.errorStyle}>
+        <TextComponent style={styles.errorStyle}>
           {nameError ? "Please enter a valid name" : ""}
-        </Text>
-        <Text style={styles.textColor}>Email address:</Text>
+        </TextComponent>
+        <TextComponent>Email address:</TextComponent>
         <Input value={email} onChangeText={setEmail} onBlur={validateEmail} />
-        <Text style={styles.errorStyle}>
+        <TextComponent style={styles.errorStyle}>
           {emailError ? "Please enter a valid email" : ""}
-        </Text>
+        </TextComponent>
         <View style={styles.checkboxContainer}>
           <Checkbox value={isChecked} onValueChange={setChecked} />
-          <Text style={styles.textColor}> I am not a Robot</Text>
+          <TextComponent> I am not a Robot</TextComponent>
         </View>
 
         <View style={styles.buttonContainer}>
@@ -78,25 +77,29 @@ const StartScreen = ({ onStart }) => {
           />
         </View>
       </Card>
-    </LinearGradient>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  gradientStyle: {
+  startContainer: {
     flex: 1,
     width: "100%",
     alignItems: "center",
   },
-  container: {
-    paddingTop: 50,
+  headerContainer: {
     width: "100%",
     alignItems: "center",
+    paddingTop: 40,
+    height: 80, 
+    justifyContent: "center", 
+    marginBottom : 40,
   },
   headerStyle: {
     fontSize: 24,
     fontWeight: "bold",
     color: "#6200ee",
+    lineHeight : 24,
   },
   input: {
     height: 40,
@@ -115,11 +118,9 @@ const styles = StyleSheet.create({
     left: "10%",
     width: "80%",
   },
-  textColor: {
-    color: "#6200ee",
-  },
   errorStyle: {
     marginBottom: 50,
+    color : 'black',
   },
 });
 export default StartScreen;
