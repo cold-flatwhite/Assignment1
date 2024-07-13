@@ -13,7 +13,7 @@ import Input from "../components/Input";
 import TextComponent from "../components/TextComponent";
 import ButtonComponent from "../components/ButtonComponent";
 
-const GameScreen = () => {
+const GameScreen = ({onRestart}) => {
   const generateRandomNumber = () => Math.floor(Math.random() * 100) + 1;
   const [randomNumber, setRandomNumber] = useState(generateRandomNumber());
   const [guess, setGuess] = useState("");
@@ -92,7 +92,7 @@ const GameScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
-        <Button title="Restart" onPress={handleRestart} />
+        <Button title="Restart" onPress={onRestart} />
       </View>
 
       {!showSuccess && !showGuessResult && !gameOverMessage && (

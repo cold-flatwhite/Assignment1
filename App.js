@@ -7,7 +7,7 @@ import GameScreen from "./screens/GameScreen";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function App() {
-  const [screen, setScreen] = useState("game");
+  const [screen, setScreen] = useState("start");
   const [userInfo, setUserInfo] = useState({ name: "", email: "" });
 
   const handleStart = (name, email) => {
@@ -21,6 +21,11 @@ export default function App() {
 
   const handleConfirm = () => {
     setScreen("game");
+  };
+
+  const handleRestart = () => {
+    setUserInfo({ name: "", email: "" });
+    setScreen("start");
   };
 
   return (
@@ -41,7 +46,7 @@ export default function App() {
             onConfirm={handleConfirm}
           />
         )}
-        {screen === "game" && <GameScreen/>}
+        {screen === "game" && <GameScreen onRestart={handleRestart}/>}
         <StatusBar style="auto" />
       </View>
     </LinearGradient>
