@@ -5,6 +5,7 @@ import Card from "../components/Card";
 import Input from "../components/Input";
 import TextComponent from "../components/TextComponent";
 import ButtonComponent from "../components/ButtonComponent";
+import styleHelper from "../styles/styleHelper";
 
 const StartScreen = ({ onStart }) => {
   const [name, setName] = useState("");
@@ -87,27 +88,27 @@ const styles = StyleSheet.create({
   headerContainer: {
     width: "100%",
     alignItems: "center",
-    paddingTop: 40,
+    paddingTop: styleHelper.spacing.large,
     height: 80,
     justifyContent: "center",
-    marginBottom: 40,
+    marginBottom: styleHelper.spacing.large,
   },
   headerStyle: {
-    fontSize: 24,
+    fontSize: styleHelper.fonts.large,
     fontWeight: "bold",
-    color: "#6200ee",
-    lineHeight: 24,
+    color: styleHelper.colors.primary,
+    lineHeight: styleHelper.fonts.large,
   },
   input: {
     height: 40,
-    borderColor: "#6200ee",
-    borderBottomWidth: 1,
-    color: "#6200ee",
+    borderColor: styleHelper.colors.primary,
+    borderBottomWidth: styleHelper.border.width,
+    color: styleHelper.colors.primary,
   },
   checkboxContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 10,
+    marginVertical: styleHelper.spacing.medium,
   },
   buttonContainer: {
     flexDirection: "row",
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
   },
   errorStyle: {
     marginBottom: 50,
-    color: "black",
+    color: styleHelper.colors.error,
   },
   label: {
     alignSelf: "flex-start",

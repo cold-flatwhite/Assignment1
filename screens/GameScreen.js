@@ -12,6 +12,7 @@ import Card from "../components/Card";
 import Input from "../components/Input";
 import TextComponent from "../components/TextComponent";
 import ButtonComponent from "../components/ButtonComponent";
+import styleHelper from "../styles/styleHelper";
 
 const GameScreen = ({onRestart}) => {
   const generateRandomNumber = () => Math.floor(Math.random() * 100) + 1;
@@ -173,25 +174,25 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   buttonContainer: {
-    marginBottom: 5,
+    marginBottom: styleHelper.spacing.small,
   },
   input: {
     height: 40,
     width: 40,
-    borderColor: "#6200ee",
-    borderBottomWidth: 1,
-    color: "#6200ee",
-    marginBottom: 10,
+    borderColor: styleHelper.border.color,
+    borderBottomWidth: styleHelper.border.width,
+    color: styleHelper.colors.primary,
+    marginBottom: styleHelper.spacing.medium,
   },
   hintTextStyle : {
     color : "grey",
-    fontSize : 15,
-    marginBottom : 10,
+    fontSize : styleHelper.fonts.small,
+    marginBottom : styleHelper.spacing.medium,
   },
   leftTextStyle: {
-    fontSize: 13,
-    marginBottom: 10,
-    color: "grey",
+    color: styleHelper.colors.primary,
+    marginTop: styleHelper.spacing.small,
+    marginBottom: styleHelper.spacing.small,
   },
 
   containerText: {
@@ -201,7 +202,7 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 100,
-    marginBottom: 20,
+    marginBottom: styleHelper.spacing.medium,
   },
 });
 

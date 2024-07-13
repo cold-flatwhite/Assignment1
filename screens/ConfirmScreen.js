@@ -3,6 +3,7 @@ import { StyleSheet, View, Modal, Text, Button } from "react-native";
 import Card from "../components/Card";
 import TextComponent from "../components/TextComponent";
 import ButtonComponent from "../components/ButtonComponent";
+import styleHelper from "../styles/styleHelper";
 
 const Confirm = ({ visible, name, email, onEdit, onConfirm }) => {
   return (
@@ -33,14 +34,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
   textStyle: {
-    marginBottom: 10,
-    lineHeight: 24,
+    marginBottom: styleHelper.spacing.medium,
+    lineHeight: styleHelper.fonts.medium,
   },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "50%",
-    marginTop: 20,
+    marginTop: styleHelper.spacing.large,
   },
 });
 
