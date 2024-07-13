@@ -105,14 +105,14 @@ const GameScreen = ({onRestart}) => {
             keyboardType="numeric"
             style={styles.input}
           />
-          {hintMessage && <TextComponent style={styles.hintTextStyle}>{hintMessage}</TextComponent>}
+          {!!hintMessage && <TextComponent style={styles.hintTextStyle}>{hintMessage}</TextComponent>}
           <TextComponent style={styles.leftTextStyle}>Attempts left: {attempts}</TextComponent>
           <TextComponent style={styles.leftTextStyle}>Time left: {timer}s</TextComponent>
           <View style={styles.buttonContainer}>
             <ButtonComponent
               title="Use a Hint"
               onPress={handleUseHint}
-              disabled={hintMessage}
+              disabled={!!hintMessage}
             />
           </View>
           <View style={styles.buttonContainer}>
@@ -155,7 +155,7 @@ const GameScreen = ({onRestart}) => {
             style={styles.image}
             source={require("../assets/sad_smiley.png")}
           />
-          {gameOverMessage && (
+          {!!gameOverMessage && (
             <TextComponent style={styles.containerText}>{gameOverMessage}</TextComponent>
           )}
           <ButtonComponent title="New Game" onPress={handleRestart} />

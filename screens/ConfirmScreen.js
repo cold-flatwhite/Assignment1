@@ -7,7 +7,7 @@ import styleHelper from "../styles/styleHelper";
 
 const Confirm = ({ visible, name, email, onEdit, onConfirm }) => {
   return (
-    <Modal visible={visible} transparent={true} animationType="slide">
+    <Modal visible={!!visible} transparent={true} animationType="slide">
       <View style={styles.confirmContainer}>
         <Card>
           <TextComponent style={styles.textStyle}>

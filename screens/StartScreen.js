@@ -40,8 +40,8 @@ const StartScreen = ({ onStart }) => {
   };
 
   const handleStart = () => {
-    email.length == 0 ? setEmailError((current) => {return true}) : validateEmail(email);
-    name.length == 0 ? setNameError((current) => {return true}) : validateName(name);
+    !email ? setEmailError((current) => {return true}) : validateEmail();
+    !name ? setNameError((current) => {return true}) : validateName();
     console.log(emailError);
     console.log(nameError);
     if (name && !nameError && email && !emailError) {
