@@ -23,7 +23,6 @@ const GameScreen = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [gameOverMessage, setGameOverMessage] = useState("");
-  const [hintUsed, setHintUsed] = useState(false);
   const [hintMessage, setHintMessage] = useState("");
 
   useEffect(() => {
@@ -82,13 +81,11 @@ const GameScreen = () => {
     setGameOver(false);
     setGameOverMessage("");
     setHintMessage("");
-    setHintUsed(false);
   };
 
   const handleUseHint = () => {
     const msg =
-      randomNumber <= 50 ? "Number is 50 or less" : "Number is more than 50";
-    setHintUsed(true);
+      randomNumber <= 50 ? "Number is between 1 and 50" : "Number is between 51 and 100";
     setHintMessage(msg);
   };
 
@@ -98,7 +95,7 @@ const GameScreen = () => {
         <Button title="Restart" onPress={handleRestart} />
       </View>
 
-      {!showSuccess && !showGuessResult && !gameOverMessage && !hintUsed && (
+      {!showSuccess && !showGuessResult && !gameOverMessage && (
         <Card>
           <TextComponent>Guess A Number between 1 & 100</TextComponent>
           <Input
@@ -107,6 +104,7 @@ const GameScreen = () => {
             keyboardType="numeric"
             style={styles.input}
           />
+          {hintMessage && <TextComponent style={styles.hintTextStyle}>{hintMessage}</TextComponent>}
           <TextComponent style={styles.leftTextStyle}>Attempts left: {attempts}</TextComponent>
           <TextComponent style={styles.leftTextStyle}>Time left: {timer}s</TextComponent>
           <View style={styles.buttonContainer}>
@@ -134,15 +132,15 @@ const GameScreen = () => {
               uri: `https://picsum.photos/id/${randomNumber}/100/100`,
             }}
           />
-          <Button title="New Game" onPress={handleRestart} />
+          <ButtonComponent title="New Game" onPress={handleRestart} />
         </Card>
       )}
 
       {!gameOver && showGuessResult && (
         <Card>
           <TextComponent style={styles.containerText}>You did not guess correct!</TextComponent>
-          <Button title="Try Again" onPress={handleGuessAgain} />
-          <Button
+          <ButtonComponent title="Try Again" onPress={handleGuessAgain} />
+          <ButtonComponent
             title="End the Game"
             onPress={() => handleGameOver("Game ended by user.")}
           />
@@ -159,15 +157,10 @@ const GameScreen = () => {
           {gameOverMessage && (
             <TextComponent style={styles.containerText}>{gameOverMessage}</TextComponent>
           )}
+          <ButtonComponent title="New Game" onPress={handleRestart} />
         </Card>
       )}
 
-      {hintUsed && (
-        <Card>
-          <TextComponent style={styles.containerText}>{hintMessage}</TextComponent>
-          <Button title="Continue" onPress={() => setHintUsed(false)} />
-        </Card>
-      )}
     </View>
   );
 };
@@ -189,6 +182,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     color: "#6200ee",
     marginBottom: 10,
+  },
+  hintTextStyle : {
+    color : "grey",
+    fontSize : 15,
+    marginBottom : 10,
   },
   leftTextStyle: {
     fontSize: 13,

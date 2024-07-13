@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import Checkbox from "expo-checkbox";
-import { LinearGradient } from "expo-linear-gradient";
 import Card from "../components/Card";
 import Input from "../components/Input";
 import TextComponent from "../components/TextComponent";
